@@ -1,62 +1,140 @@
 pipeline {
     agent any
     
+    // Trigger the pipeline on GitHub push events
+    triggers {
+        githubPush()
+    }
+    
+    // Define environment variables
+    environment {
+        // Define your authentication token here (not used in this example)
+        AUTH_TOKEN = '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'
+    }
+    
     stages {
         stage('Build') {
             steps {
-                echo "Build the code using a build automation tool (e.g., Maven) to compile and package your code."
+                echo "Stage 1: Build - Build the code using a build automation tool (e.g., Maven)"
+                echo "Tool: Maven"
+                // Example command to build the project
+                // sh 'mvn clean install'
             }
         }
+        
         stage('Unit and Integration Tests') {
             steps {
-                echo "Run unit tests to ensure the code functions as expected."
-                echo "Tools: JUnit for unit tests and Selenium for integration tests."
+                echo "Stage 2: Unit and Integration Tests - Run unit tests and integration tests"
+                echo "Tools: JUnit for unit tests and Selenium for integration tests"
+                // Example command to run tests
+                // sh 'mvn test'
+            }
+            post {
+                success {
+                    emailext(
+                        body: 'Unit and Integration Tests stage completed successfully.',
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Unit and Integration Tests Stage Successful',
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        body: 'Unit and Integration Tests stage failed.',
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Unit and Integration Tests Stage Failed',
+                        attachLog: true
+                    )
+                }
             }
         }
+        
         stage('Code Analysis') {
             steps {
-                echo "Integrate a code analysis tool (e.g., SonarQube) to analyze the code and ensure it meets industry standards."
+                echo "Stage 3: Code Analysis - Integrate a code analysis tool to analyze the code"
+                echo "Tools: Jenkins with SonarQube and Checkmarx"
+                // Example command to run SonarQube analysis
+                // sh 'mvn sonar:sonar'
+            }
+            post {
+                success {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Code Analysis Successful',
+                        body: 'Code analysis completed successfully.',
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Code Analysis Failed',
+                        body: 'Code analysis failed.',
+                        attachLog: true
+                    )
+                }
             }
         }
+        
         stage('Security Scan') {
             steps {
-                echo "Perform a security scan on the code using a tool (e.g., OWASP ZAP) to identify any vulnerabilities."
+                echo "Stage 4: Security Scan - Perform a security scan on the code"
+                echo "Tools: OWASP ZAP (Zed Attack Proxy)"
+                // Example command to run OWASP ZAP
+                // sh 'zap-cli quick-scan http://localhost:8080'
+            }
+            post {
+                success {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Security Scan Successful',
+                        body: 'Security scan completed successfully.',
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Security Scan Failed',
+                        body: 'Security scan failed.',
+                        attachLog: true
+                    )
+                }
             }
         }
+        
         stage('Deploy to Staging') {
             steps {
-                echo "Deploy the application to a staging server (e.g., AWS EC2 instance)."
+                echo "Stage 5: Deploy to Staging - Deploy the application to a staging server"
+                echo "Tools: AWS EC2 instance"
+                // Example command to deploy to staging
+                // sh 'deploy_script_to_staging.sh'
             }
         }
+        
         stage('Integration Tests on Staging') {
             steps {
-                echo "Run integration tests on the staging environment to ensure the application functions as expected in a production-like environment."
+                echo "Stage 6: Integration Tests on Staging - Run integration tests on the staging environment"
+                echo "Tools: Selenium WebDriver"
+                // Example command to run integration tests on staging
+                // sh 'run_staging_integration_tests.sh'
             }
         }
+        
         stage('Deploy to Production') {
             steps {
-                echo "Deploy the application to a production server (e.g., AWS EC2 instance)."
+                echo "Stage 7: Deploy to Production - Deploy the application to a production server"
+                echo "Tools: AWS Elastic Beanstalk"
+                // Example command to deploy to production
+                // sh 'deploy_script_to_production.sh'
             }
         }
     }
     
     post {
-        success {
-            echo 'Pipeline finished successfully.'
-            sendNotificationEmail("Success")
-        }
-        failure {
-            echo 'Pipeline failed.'
-            sendNotificationEmail("Failure")
+        always {
+            echo 'Pipeline finished.'
         }
     }
 }
 
-def sendNotificationEmail(status) {
-    emailext(
-        to: 'your_email@example.com',
-        subject: "Pipeline ${status}",
-        body: "Pipeline ${status}.",
-        attachLog: true
-    )
-}
