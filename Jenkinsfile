@@ -90,7 +90,30 @@ pipeline {
                 }
             }
         }
-        // Add other stages as needed
+        stage('Deploy to Staging') {
+            steps {
+                echo "Deploy the application to a staging server"
+                echo "Tools: AWS EC2 instance"
+                // Example command to deploy to staging
+                // sh 'deploy_script_to_staging.sh'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Run integration tests on the staging environment to ensure the application functions as expected."
+                echo "Tools: Selenium WebDriver"
+                // Example command to run integration tests on staging
+                // sh 'run_staging_integration_tests.sh'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploy the application to a production server"
+                echo "Tools: AWS Elastic Beanstalk"
+                // Example command to deploy to production
+                // sh 'deploy_script_to_production.sh'
+            }
+        }
     }
     post {
         always {
