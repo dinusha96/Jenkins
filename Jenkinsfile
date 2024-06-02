@@ -22,17 +22,17 @@ pipeline {
             post {
                 success {
                     emailext(
-                        body: 'Test stage completed successfully.',
+                        body: 'Unit and Integration Tests stage completed successfully.',
                         to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Test Stage Successful',
+                        subject: 'Unit and Integration Tests Stage Successful',
                         attachLog: true
                     )
                 }
                 failure {
                     emailext(
-                        body: 'Test stage failed.',
+                        body: 'Unit and Integration Tests stage failed.',
                         to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Test Stage Failed',
+                        subject: 'Unit and Integration Tests Stage Failed',
                         attachLog: true
                     )
                 }
@@ -44,6 +44,24 @@ pipeline {
                 echo "Tools: Jenkins with SonarQube and Checkmarx"
                 // Example command to run SonarQube analysis
                 // sh 'mvn sonar:sonar'
+            }
+            post {
+                success {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Code Analysis Successful',
+                        body: 'Code analysis completed successfully.',
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        to: 'karunaratnedinusha@gmail.com',
+                        subject: 'Code Analysis Failed',
+                        body: 'Code analysis failed.',
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Security Scan') {
@@ -72,30 +90,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Staging') {
-            steps {
-                echo "Deploy the application to a staging server"
-                echo "Tools: AWS EC2 instance"
-                // Example command to deploy to staging
-                // sh 'deploy_script_to_staging.sh'
-            }
-        }
-        stage('Integration Tests on Staging') {
-            steps {
-                echo "Run integration tests on the staging environment to ensure the application functions as expected."
-                echo "Tools: Selenium WebDriver"
-                // Example command to run integration tests on staging
-                // sh 'run_staging_integration_tests.sh'
-            }
-        }
-        stage('Deploy to Production') {
-            steps {
-                echo "Deploy the application to a production server"
-                echo "Tools: AWS Elastic Beanstalk"
-                // Example command to deploy to production
-                // sh 'deploy_script_to_production.sh'
-            }
-        }
+        // Add other stages as needed
     }
     post {
         always {
