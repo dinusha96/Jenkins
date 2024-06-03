@@ -53,95 +53,8 @@ pipeline {
             }
         }
         
-        stage('Code Analysis') {
-            steps {
-                echo "Stage 3: Code Analysis - Integrate a code analysis tool to analyze the code"
-                echo "Tools: Jenkins with SonarQube and Checkmarx"
-                // Example command to run SonarQube analysis
-                // Uncomment and adjust the following line as necessary
-                // sh 'mvn sonar:sonar'
-            }
-            post {
-                success {
-                    echo 'Code Analysis completed successfully, sending email...'
-                    emailext(
-                        to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Code Analysis Successful',
-                        body: 'Code analysis completed successfully.',
-                        attachLog: true
-                    )
-                }
-                failure {
-                    echo 'Code Analysis failed, sending email...'
-                    emailext(
-                        to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Code Analysis Failed',
-                        body: 'Code analysis failed.',
-                        attachLog: true
-                    )
-                }
-            }
-        }
+        // Add similar stages and post conditions for the other stages
         
-        stage('Security Scan') {
-            steps {
-                echo "Stage 4: Security Scan - Perform a security scan on the code"
-                echo "Tools: OWASP ZAP (Zed Attack Proxy)"
-                // Example command to run OWASP ZAP
-                // Uncomment and adjust the following line as necessary
-                // sh 'zap-cli quick-scan http://localhost:8080'
-            }
-            post {
-                success {
-                    echo 'Security Scan completed successfully, sending email...'
-                    emailext(
-                        to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Security Scan Successful',
-                        body: 'Security scan completed successfully.',
-                        attachLog: true
-                    )
-                }
-                failure {
-                    echo 'Security Scan failed, sending email...'
-                    emailext(
-                        to: 'karunaratnedinusha@gmail.com',
-                        subject: 'Security Scan Failed',
-                        body: 'Security scan failed.',
-                        attachLog: true
-                    )
-                }
-            }
-        }
-        
-        stage('Deploy to Staging') {
-            steps {
-                echo "Stage 5: Deploy to Staging - Deploy the application to a staging server"
-                echo "Tools: AWS EC2 instance"
-                // Example command to deploy to staging
-                // Uncomment and adjust the following line as necessary
-                // sh 'deploy_script_to_staging.sh'
-            }
-        }
-        
-        stage('Integration Tests on Staging') {
-            steps {
-                echo "Stage 6: Integration Tests on Staging - Run integration tests on the staging environment"
-                echo "Tools: Selenium WebDriver"
-                // Example command to run integration tests on staging
-                // Uncomment and adjust the following line as necessary
-                // sh 'run_staging_integration_tests.sh'
-            }
-        }
-        
-        stage('Deploy to Production') {
-            steps {
-                echo "Stage 7: Deploy to Production - Deploy the application to a production server"
-                echo "Tools: AWS Elastic Beanstalk"
-                // Example command to deploy to production
-                // Uncomment and adjust the following line as necessary
-                // sh 'deploy_script_to_production.sh'
-            }
-        }
     }
     
     post {
@@ -168,5 +81,6 @@ pipeline {
         }
     }
 }
+
 
 
