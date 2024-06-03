@@ -66,7 +66,7 @@
             emailext(
                 to: 'karunaratnedinusha@gmail.com',
                 subject: 'Pipeline Successful',
-                body: 'The Jenkins pipeline completed successfully.',
+                body: 'The Jenkins pipeline completed successfully & email sent.',
                 attachLog: true
             )
         }
