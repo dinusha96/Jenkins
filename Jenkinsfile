@@ -31,6 +31,7 @@ pipeline {
             }
             post {
                 success {
+                    echo 'Unit and Integration Tests completed successfully, sending email...'
                     emailext(
                         body: 'Unit and Integration Tests stage completed successfully.',
                         to: 'karunaratnedinusha@gmail.com',
@@ -39,6 +40,7 @@ pipeline {
                     )
                 }
                 failure {
+                    echo 'Unit and Integration Tests failed, sending email...'
                     emailext(
                         body: 'Unit and Integration Tests stage failed.',
                         to: 'karunaratnedinusha@gmail.com',
@@ -58,6 +60,7 @@ pipeline {
             }
             post {
                 success {
+                    echo 'Code Analysis completed successfully, sending email...'
                     emailext(
                         to: 'karunaratnedinusha@gmail.com',
                         subject: 'Code Analysis Successful',
@@ -66,6 +69,7 @@ pipeline {
                     )
                 }
                 failure {
+                    echo 'Code Analysis failed, sending email...'
                     emailext(
                         to: 'karunaratnedinusha@gmail.com',
                         subject: 'Code Analysis Failed',
@@ -85,6 +89,7 @@ pipeline {
             }
             post {
                 success {
+                    echo 'Security Scan completed successfully, sending email...'
                     emailext(
                         to: 'karunaratnedinusha@gmail.com',
                         subject: 'Security Scan Successful',
@@ -93,6 +98,7 @@ pipeline {
                     )
                 }
                 failure {
+                    echo 'Security Scan failed, sending email...'
                     emailext(
                         to: 'karunaratnedinusha@gmail.com',
                         subject: 'Security Scan Failed',
@@ -134,6 +140,24 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline completed successfully, sending email...'
+            emailext(
+                to: 'karunaratnedinusha@gmail.com',
+                subject: 'Pipeline Successful',
+                body: 'The Jenkins pipeline completed successfully.',
+                attachLog: true
+            )
+        }
+        failure {
+            echo 'Pipeline failed, sending email...'
+            emailext(
+                to: 'karunaratnedinusha@gmail.com',
+                subject: 'Pipeline Failed',
+                body: 'The Jenkins pipeline failed.',
+                attachLog: true
+            )
         }
     }
 }
