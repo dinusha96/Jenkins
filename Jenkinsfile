@@ -8,7 +8,7 @@ pipeline {
     
     // Define environment variables
     environment {
-        // Define your authentication token here (not used in this example)
+        // Define your authentication token here (if needed for any step)
         AUTH_TOKEN = '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'
     }
     
@@ -18,6 +18,7 @@ pipeline {
                 echo "Stage 1: Build - Build the code using a build automation tool (e.g., Maven)"
                 echo "Tool: Maven"
                 // Example command to build the project
+                // Uncomment and adjust the following line as necessary
                 // sh 'mvn clean install'
             }
         }
@@ -27,6 +28,7 @@ pipeline {
                 echo "Stage 2: Unit and Integration Tests - Run unit tests and integration tests"
                 echo "Tools: JUnit for unit tests and Selenium for integration tests"
                 // Example command to run tests
+                // Uncomment and adjust the following line as necessary
                 // sh 'mvn test'
             }
             post {
@@ -56,6 +58,7 @@ pipeline {
                 echo "Stage 3: Code Analysis - Integrate a code analysis tool to analyze the code"
                 echo "Tools: Jenkins with SonarQube and Checkmarx"
                 // Example command to run SonarQube analysis
+                // Uncomment and adjust the following line as necessary
                 // sh 'mvn sonar:sonar'
             }
             post {
@@ -85,6 +88,7 @@ pipeline {
                 echo "Stage 4: Security Scan - Perform a security scan on the code"
                 echo "Tools: OWASP ZAP (Zed Attack Proxy)"
                 // Example command to run OWASP ZAP
+                // Uncomment and adjust the following line as necessary
                 // sh 'zap-cli quick-scan http://localhost:8080'
             }
             post {
@@ -114,6 +118,7 @@ pipeline {
                 echo "Stage 5: Deploy to Staging - Deploy the application to a staging server"
                 echo "Tools: AWS EC2 instance"
                 // Example command to deploy to staging
+                // Uncomment and adjust the following line as necessary
                 // sh 'deploy_script_to_staging.sh'
             }
         }
@@ -123,6 +128,7 @@ pipeline {
                 echo "Stage 6: Integration Tests on Staging - Run integration tests on the staging environment"
                 echo "Tools: Selenium WebDriver"
                 // Example command to run integration tests on staging
+                // Uncomment and adjust the following line as necessary
                 // sh 'run_staging_integration_tests.sh'
             }
         }
@@ -132,6 +138,7 @@ pipeline {
                 echo "Stage 7: Deploy to Production - Deploy the application to a production server"
                 echo "Tools: AWS Elastic Beanstalk"
                 // Example command to deploy to production
+                // Uncomment and adjust the following line as necessary
                 // sh 'deploy_script_to_production.sh'
             }
         }
@@ -161,4 +168,5 @@ pipeline {
         }
     }
 }
+
 
